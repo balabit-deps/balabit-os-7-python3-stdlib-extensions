@@ -16,15 +16,17 @@ export SHELL = /bin/bash
 PYVERS	= $(shell py3versions -vs)
 PYVERS	= 3.6 3.7
 
-MIN_VER = 3.6.4-1~
+MIN_VER = 3.6.6-1~
 
 include /usr/share/dpkg/architecture.mk
 
+SET_ENV = PYTHONPATH=$(CURDIR)/$*/Lib
+
 ifneq ($(DEB_BUILD_MULTIARCH),$(DEB_HOST_MULTIARCH))
-  SET_CROSS_ENV = PYTHONPATH=/usr/lib/python$*/plat-$(DEB_HOST_MULTIARCH)
+  SET_ENV += PYTHONPATH=/usr/lib/python$*/plat-$(DEB_HOST_MULTIARCH)
 
   # FIXME: is this sufficient?
-  SET_CROSS_ENV += _PYTHON_HOST_PLATFORM=$(DEB_HOST_GNU_CPU)
+  SET_ENV += _PYTHON_HOST_PLATFORM=$(DEB_HOST_GNU_CPU)
 endif
 
 p_tk	= python3-tk
@@ -48,14 +50,14 @@ build-stamp-py%:
 	dh_testdir
 	ln -sf /usr/lib/libBLT.2.4.so.8.6 $*/libBLT86.so
 	ln -sf /usr/lib/libBLT.2.4.so.8.6 $*/libBLT86.so.8.6
-	cd $* && $(SET_CROSS_ENV) python$* setup.py build
+	cd $* && $(SET_ENV) python$* setup.py build
 	touch $@
 
 dbg-stamp-py%:
 	dh_testdir
 	ln -sf /usr/lib/libBLT.2.4.so.8.6 $*/libBLT85.so
 	ln -sf /usr/lib/libBLT.2.4.so.8.6 $*/libBLT85.so.8.6
-	cd $* && $(SET_CROSS_ENV) python$*-dbg setup.py build
+	cd $* && $(SET_ENV) python$*-dbg setup.py build
 	touch $@
 
 clean:
@@ -66,6 +68,7 @@ clean:
 	rm -rf 3.?/libBLT*
 	rm -f debian/python3-tk.postinst
 	rm -f debian/python3-distutils.postinst
+	find 3* -name __pycache__ | xargs -r rm -rf
 	dh_clean
 
 install: build install-prereq $(PYVERS:%=install-stamp-py%) $(PYVERS:%=dbg-install-py%)
@@ -80,7 +83,7 @@ install-prereq:
 	dh_prep
 
 install-stamp-py%: build-stamp-py%
-	cd $* && $(SET_CROSS_ENV) python$* setup.py install \
+	cd $* && $(SET_ENV) python$* setup.py install \
 		--root=$(CURDIR)/$(d_tk) --install-layout=deb
 	mkdir -p $(d_tk)/usr/lib/python$*/lib-dynload
 	mv $(d_tk)/usr/lib/python3/*-packages/*.so \
@@ -97,13 +100,15 @@ install-stamp-py%: build-stamp-py%
 	rm -f -v $(d_dist)/usr/lib/python$*/distutils/{__init__,version}.py
 	rm -rf $(d_dist)/usr/lib/python$*/distutils/tests
 	rm -rf $(d_dist)/usr/lib/python$*/distutils/command/wininst-*.exe
+	find $(d_dist) -name __pycache__ | xargs -r rm -rf
 
 	mkdir -p $(d_2to3)/usr/lib/python$*
 	cp -r $*/Lib/lib2to3 $(d_2to3)/usr/lib/python$*/.
 	rm -rf $(d_2to3)/usr/lib/python$*/lib2to3/tests
+	find $(d_2to3) -name __pycache__ | xargs -r rm -rf
 
 dbg-install-py%: dbg-stamp-py%
-	cd $* && $(SET_CROSS_ENV) python$*-dbg setup.py install \
+	cd $* && $(SET_ENV) python$*-dbg setup.py install \
 		--root=$(CURDIR)/$(d_tk)-dbg --install-layout=deb
 	mkdir -p $(d_tk)-dbg/usr/lib/python$*/lib-dynload
 	mv $(d_tk)-dbg/usr/lib/python3/*-packages/*.so \
