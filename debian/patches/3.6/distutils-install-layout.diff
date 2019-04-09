@@ -171,7 +171,7 @@ Index: b/3.6/Lib/distutils/tests/test_bdist_dumb.py
 @@ -85,7 +85,7 @@ class BuildDumbTestCase(support.TempdirM
              fp.close()
  
-         contents = sorted(os.path.basename(fn) for fn in contents)
+         contents = sorted(filter(None, map(os.path.basename, contents)))
 -        wanted = ['foo-0.1-py%s.%s.egg-info' % sys.version_info[:2], 'foo.py']
 +        wanted = ['foo-0.1.egg-info', 'foo.py']
          if not sys.dont_write_bytecode:
