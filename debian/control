@@ -3,10 +3,10 @@ Section: python
 Priority: optional
 Maintainer: Matthias Klose <doko@debian.org>
 Build-Depends: debhelper (>= 9), rdfind,
-  libpython3.6-dev, libpython3.7-dev,
-  libpython3.6-dbg, libpython3.7-dbg,
-  python3.6-dev:any, python3.7-dev:any,
-  python3.6-dbg:any, python3.7-dbg:any,
+  libpython3.6-dev, libpython3.7-dev, libpython3.8-dev,
+  libpython3.6-dbg, libpython3.7-dbg, libpython3.8-dbg,
+  python3.6-dev:any, python3.7-dev:any, python3.8-dev:any,
+  python3.6-dbg:any, python3.7-dbg:any, python3.8-dbg:any,
   tk-dev, blt-dev (>= 2.4z-9), libgdbm-dev
 Build-Conflicts: tcl8.4-dev, tk8.4-dev, tcl8.5-dev, tk8.5-dev
 Standards-Version: 4.2.1

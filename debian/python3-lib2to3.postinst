@@ -2,7 +2,7 @@
 
 set -e
 
-versions="3.6 3.7"
+versions="3.6 3.7 3.8"
 
 case "$1" in
   configure)

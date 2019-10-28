@@ -24,3 +24,15 @@
 3.7/disable-some-tests.diff
 3.7/mangle-fstack-protector.diff
 3.7/lib2to3-no-pickled-grammar.diff
+# 3.8
+3.8/distutils-install-layout.diff
+3.8/distutils-link.diff
+3.8/distutils-sysconfig.diff
+3.8/bdist-wininst-notfound.diff
+3.8/multiarch.diff
+3.8/ext-no-libpython-link.diff
+3.8/multiarch-extname.diff
+3.8/disable-some-tests.diff
+3.8/mangle-fstack-protector.diff
+3.8/lib2to3-no-pickled-grammar.diff
+3.8/sysconfigdata-name.diff

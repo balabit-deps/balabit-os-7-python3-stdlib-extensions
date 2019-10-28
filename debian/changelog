@@ -1,3 +1,11 @@
+python3-stdlib-extensions (3.6.9-1~18.04) bionic-proposed; urgency=medium
+
+  * SRU: LP: #1835737. Build extensions for Python 3.8.
+  * Update 3.6 extensions and modules to 3.6.9.
+  * Update 3.7 extensions and modules to 3.7.5.
+
+ -- Matthias Klose <doko@ubuntu.com>  Mon, 28 Oct 2019 17:30:34 +0100
+
 python3-stdlib-extensions (3.6.8-1~18.04) bionic-proposed; urgency=medium
 
   * SRU: LP: #1822993.
